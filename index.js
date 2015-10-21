@@ -1,6 +1,7 @@
 /**
   CSSOM Query - Cascading Style Sheets - Object Model - Query
-  Dynamically query and manipulate CSS Selectors into the style sheets
+  Dynamically find CSS Selector into style sheets and manipulate elements
+  selector's styles without touching the DOM
   */
 function CSSOMQuery(selectorText) {
   var styleSheets = document.styleSheets

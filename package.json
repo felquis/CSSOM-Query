@@ -1,7 +1,7 @@
 {
   "name": "cssom-query",
   "version": "1.0.0",
-  "description": "Query CSS Selector and manipulate then via CSS Object Model",
+  "description": "Dynamically find CSS Selector into style sheets and manipulate elements selector's styles without touching the DOM",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

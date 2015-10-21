@@ -1,6 +1,6 @@
 ## CSSOM-Query
 
-Find CSS Selector into style sheets and manipulate elements styles without touching the DOM
+Dynamically find CSS Selector into style sheets and manipulate elements selector's styles without touching the DOM
 
 clone this repository and run the commands bellow to launch the examples
 ```shell
