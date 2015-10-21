@@ -1,6 +1,9 @@
-## CSSOM-Query
+# CSSOM-Query
 
 Dynamically find CSS Selector into style sheets and manipulate elements selector's styles without touching the DOM
+
+## Examples
+ * [Basic Demo](http://felquis.github.io/CSSOM-Query/example/)
 
 clone this repository and run the commands bellow to launch the examples
 ```shell
