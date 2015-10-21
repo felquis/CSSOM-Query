@@ -1,0 +1,11 @@
+h1 {
+  color: red;
+}
+
+.box {
+  width: 100px;
+  background: red;
+  height: 100px;
+  transition: height 300ms cubic-bezier(0.18, 0.89, 0.32, 1.28),
+              width 300ms cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}

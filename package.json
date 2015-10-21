@@ -1,0 +1,30 @@
+{
+  "name": "cssom-query",
+  "version": "1.0.0",
+  "description": "Query CSS Selector and manipulate then via CSS Object Model",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server ./ -o"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/felquis/cssom-query.git"
+  },
+  "devDependencies": {
+    "http-server": "latest"
+  },
+  "keywords": [
+    "cssom",
+    "query",
+    "selector",
+    "change",
+    "css"
+  ],
+  "author": "Felquis Gimenes <oi@felquis.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/felquis/cssom-query/issues"
+  },
+  "homepage": "https://github.com/felquis/cssom-query#readme"
+}
