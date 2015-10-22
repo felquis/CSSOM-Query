@@ -4,6 +4,9 @@ Dynamically find CSS Selector into style sheets and manipulate elements selector
 
 ## Examples
  * [Basic Demo](http://felquis.github.io/CSSOM-Query/example/)
+ * [Header Natural Scroll](http://codepen.io/felquis/pen/GpybaX)
+   > The header is fixed positioned and it only show and hide cause if
+     change it's top property in the scroll events
 
 clone this repository and run the commands bellow to launch the examples
 ```shell
