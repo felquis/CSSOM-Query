@@ -12,6 +12,7 @@ function CSSOMQuery(selectorText) {
   _this.events = {
     transitionend: ['transitionend', 'oTransitionEnd', 'webkitTransitionEnd']
   }
+  var rule
 
   // Iterate into all style sheets added to the page
   Object.keys(styleSheets).forEach(function (styleIndex) {
@@ -28,7 +29,7 @@ function CSSOMQuery(selectorText) {
       if (rules.item(ruleIndex).selectorText === selectorText) {
 
         // Found this rule
-        var rule = rules.item(ruleIndex)
+        rule = rules.item(ruleIndex)
         // console.log('rule: ', rule)
 
         // ** Put some extra information
@@ -70,11 +71,12 @@ CSSOMQuery.prototype.set = function (property, value) {
 
 // ** Delegate events defined into this.events
 CSSOMQuery.prototype.on = function (eventName, callback) {
-  var _this = this;
+  var _this = this
+  var element
   function call(e) { callback(e) }
 
   Object.keys(_this.domNodes).forEach(function (element, index) {
-    var element = _this.domNodes.item(index)
+    element = _this.domNodes.item(index)
     // console.log('element: ', element);
 
     _this.events[eventName].forEach(function (value, index) {
