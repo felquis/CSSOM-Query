@@ -30,13 +30,11 @@ function toggleBox() {
 function attachEvents() {
   document.querySelector('h1').addEventListener('click', nextColor)
   document.querySelector('.box').addEventListener('click', toggleBox)
-  boxDOM.addEventListener('transitionend', showMessage, false);
-  boxDOM.addEventListener('oTransitionEnd', showMessage, false);
-  boxDOM.addEventListener('webkitTransitionEnd', showMessage, false);
+  box.on('transitionend', showMessage)
 }
 
 function showMessage(e) {
-  console.log('transition end: ', e)
+  console.log('transition end: ', e.propertyName)
 }
 
 attachEvents()

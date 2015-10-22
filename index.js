@@ -9,14 +9,17 @@ function CSSOMQuery(selectorText) {
   _this.domNodes = document.querySelectorAll(selectorText)
   var item
   var rules
+  _this.events = {
+    transitionend: ['transitionend', 'oTransitionEnd', 'webkitTransitionEnd']
+  }
 
   // Iterate into all style sheets added to the page
   Object.keys(styleSheets).forEach(function (styleIndex) {
     styleSheet = styleSheets.item(styleIndex)
     rules = styleSheet.cssRules
 
-    console.log('styleSheet: ', styleSheet)
-    console.log('rules: ', rules)
+    // console.log('styleSheet: ', styleSheet)
+    // console.log('rules: ', rules)
 
     // Iterate over the rules of the given style sheet
     Object.keys(rules).forEach(function (ruleIndex) {
@@ -26,7 +29,7 @@ function CSSOMQuery(selectorText) {
 
         // Found this rule
         var rule = rules.item(ruleIndex)
-        console.log('rule: ', rule)
+        // console.log('rule: ', rule)
 
         // ** Put some extra information
         _this.rules = rules
@@ -50,7 +53,6 @@ function CSSOMQuery(selectorText) {
     })
   })
 
-  console.log(rules)
   if (rules) {
     _this.cssRules = rules[_this.ruleIndex]
   } else {
@@ -62,6 +64,22 @@ function CSSOMQuery(selectorText) {
 
 // ** Set a property in the called rule
 CSSOMQuery.prototype.set = function (property, value) {
-  console.log('set', this.rule);
+  // console.log('set', this.rule);
   this.rule.style[property] = value
+}
+
+// ** Delegate events defined into this.events
+CSSOMQuery.prototype.on = function (eventName, callback) {
+  var _this = this;
+  function call(e) { callback(e) }
+
+  Object.keys(_this.domNodes).forEach(function (element, index) {
+    var element = _this.domNodes.item(index)
+    // console.log('element: ', element);
+
+    _this.events[eventName].forEach(function (value, index) {
+      // console.log('event', value)
+      element.addEventListener(value, call, false);
+    });
+  })
 }

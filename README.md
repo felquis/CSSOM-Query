@@ -59,6 +59,18 @@ box.set('height', '200px')
 box.style.height // returns 200px
 ```
 
+## transition end event
+
+It will use vendor prefixes automatically
+
+```js
+box.on('transitionend', showMessage)
+
+function showMessage(e) {
+  console.log('transition end: ', e.propertyName)
+}
+```
+
 To know more, search for CSS Object Model
 
 ## Browser Support
