@@ -5,52 +5,63 @@
   */
 function CSSOMQuery(selectorText) {
   var styleSheets = document.styleSheets
-  var _this
+  var _this = this
+  _this.domNodes = document.querySelectorAll(selectorText)
+  var item
+  var rules
 
-  (function () {
-    _this = {};
+  // Iterate into all style sheets added to the page
+  Object.keys(styleSheets).forEach(function (styleIndex) {
+    styleSheet = styleSheets.item(styleIndex)
+    rules = styleSheet.cssRules
 
-    // Iterate into all style sheets added to the page
-    Object.keys(styleSheets).forEach(function (styleIndex) {
-      var rules = styleSheets.item(styleIndex).cssRules
+    console.log('styleSheet: ', styleSheet)
+    console.log('rules: ', rules)
 
-      // Iterate over the rules of the given style sheet
-      Object.keys(rules).forEach(function (ruleIndex) {
-        // Matches the selectorText with the
-        // selectorText written in the style sheet
-        if (rules.item(ruleIndex).selectorText === selectorText) {
-          // First store the whole object into _this
-          _this = rules.item(ruleIndex)
+    // Iterate over the rules of the given style sheet
+    Object.keys(rules).forEach(function (ruleIndex) {
+      // Matches the selectorText with the current
+      // selectorText used in the style sheet
+      if (rules.item(ruleIndex).selectorText === selectorText) {
 
-          // ** Put some extra information
-          // since we found the selector into a style sheet
-          // we'll use this information to determine
-          // where do we set properties in the future
-          // otherwise, we'd need to loop all the styles again
-          // if to be able to change styles
+        // Found this rule
+        var rule = rules.item(ruleIndex)
+        console.log('rule: ', rule)
 
-          // index of the style sheet
-          // ex: document.styleSheets[styleIndex]
-          _this.styleIndex = styleIndex
+        // ** Put some extra information
+        _this.rules = rules
+        _this.rule = rule
+        _this.styleSheet = styleSheet
 
-          // store the index rule
-          // ex: document.styleSheets[styleIndex].cssRules[ruleIndex]
-          _this.ruleIndex = ruleIndex
-        }
-      })
+        // index of the style sheet
+        // ex: document.styleSheets[styleIndex]
+        _this.styleIndex = styleIndex
+
+        // store the index rule
+        // ex: document.styleSheets[styleIndex].cssRules[ruleIndex]
+        _this.ruleIndex = ruleIndex
+
+        // Also, save the styleSheets
+        // with this, to change a style sheet we don't need to
+        // access document.styleSheets into helper functions
+        // only this.styleSheets[this.styleIndex].cssRules[this.ruleIndex]
+        _this.styleSheet = styleSheet
+      }
     })
+  })
 
-    // Also, save the styleSheets
-    // with this, to change a style sheet we don't need to
-    // access document.styleSheets into helper functions
-    // only this.styleSheets[this.styleIndex].cssRules[this.ruleIndex]
-    _this.styleSheets = styleSheets;
-  }())
-
-    // Set a property in the called rule
-  _this.set = function (property, value) {
-    _this.styleSheets[_this.styleIndex].cssRules[_this.ruleIndex].style[property] = value
+  console.log(rules)
+  if (rules) {
+    _this.cssRules = rules[_this.ruleIndex]
+  } else {
+    console.log('not supported', rules)
   }
 
   return _this
+}
+
+// ** Set a property in the called rule
+CSSOMQuery.prototype.set = function (property, value) {
+  console.log('set', this.rule);
+  this.rule.style[property] = value
 }

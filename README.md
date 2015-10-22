@@ -60,3 +60,12 @@ box.style.height // returns 200px
 ```
 
 To know more, search for CSS Object Model
+
+## Browser Support
+Basic Demo was tested on:
+- iPod/Ipad Touch Safari iOS 9.0.2
+- Moto X 2013 Chrome 43
+- Firefox 41.0.1 OSX
+- Safari Version 9.0 (10601.1.56.2) OSX
+- Chrome Version 46.0.2490.71 (64-bit) OSX
+- Internet Explorer 10 - Windows 8 Virtual Box
