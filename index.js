@@ -1,114 +1,103 @@
 /**
   CSSOM Query - Cascading Style Sheets - Object Model - Query
-  Dynamically find CSS Selector into style sheets and manipulate elements
-  selector's styles without touching the DOM
+  Dynamically find CSS Selector into the page's stylesheets and manipulate elements
+  selector's styles, without touching the DOM directly
   */
 (function CSSOMQueryIIFE() {
+  var prefixEvent = {
+    transitionend: ['transitionend', 'oTransitionEnd', 'webkitTransitionEnd']
+  }
+  /*
+    Use this function with the `new`
+
+    @param selectorText is a string, it need to me exactly equal the selector
+    specified in the stylesheet, it is not a query into the DOM, it is used
+    as `a === b`
+  */
   function CSSOMQuery(selectorText) {
+    // grab all the stylesheets of the page
     var styleSheets = document.styleSheets
     var _this = this
-    _this.domNodes = document.querySelectorAll(selectorText)
-    var item
-    var rules
-    _this.events = {
-      transitionend: ['transitionend', 'oTransitionEnd', 'webkitTransitionEnd']
-    }
-    var rule
 
-    // Iterate into all style sheets added to the page
-    Object.keys(styleSheets).forEach(function (styleIndex) {
-      styleSheet = styleSheets.item(styleIndex)
-      rules = styleSheet.cssRules
-
-      // console.log('styleSheet: ', styleSheet)
-      // console.log('rules: ', rules)
+    /*
+      For each styleSheet in the page, call forEachRule
+    */
+    function forEachStylesheet(stylesheetIndex) {
+      var styleSheet = styleSheets.item(stylesheetIndex)
+      var rules = styleSheet.cssRules
 
       // Iterate over the rules of the given style sheet
-      Object.keys(rules).forEach(function (ruleIndex) {
-        // Matches the selectorText with the current
-        // selectorText used in the style sheet
-        if (rules.item(ruleIndex).selectorText === selectorText) {
+      each(rules, forEachRule)
 
-          // Found this rule
-          rule = rules.item(ruleIndex)
-          // console.log('rule: ', rule)
-
-          // ** Put some extra information
-          _this.rules = rules
-          _this.rule = rule
-          _this.style = rule.style
-          _this.styleSheet = styleSheet
-
-          // index of the style sheet
-          // ex: document.styleSheets[styleIndex]
-          _this.styleIndex = styleIndex
-
-          // store the index rule
-          // ex: document.styleSheets[styleIndex].cssRules[ruleIndex]
-          _this.ruleIndex = ruleIndex
-
-          // Also, save the styleSheets
-          // with this, to change a style sheet we don't need to
-          // access document.styleSheets into helper functions
-          // only this.styleSheets[this.styleIndex].cssRules[this.ruleIndex]
-          _this.styleSheet = styleSheet
-        }
-      })
-    })
-
-    if (rules) {
-      _this.cssRules = rules[_this.ruleIndex]
-    } else {
-      console.log('not supported', rules)
+      // It may be useful for GC
+      styleSheet = rules = null
     }
+
+    /*
+      check if the rule selectorText matches with the desired selector
+    */
+    function forEachRule(rule, ruleIndex) {
+      // Matches the selectorText with the current
+      // selectorText used in the style sheet
+      if (rule.selectorText === selectorText) {
+        return _this.rule = rule
+      }
+    }
+
+    // Iterate into all style sheets added to the page
+    each(styleSheets, forEachStylesheet)
 
     return _this
   }
 
+  /*
+    Utility, iterate Objects, Lists, Arrays..
+  */
   function each(list, transform) {
     var keys = Object.keys(list)
     var index = 0, total = keys.length
 
     if (typeof transform !== 'function') {
-      throw('segundo parametro tem que ser uma função')
+      throw('The second param must be a function')
       return
     }
 
     for (; index < total; index++) {
-      transform(keys[index], list[keys[index]], index)
+      transform(list[keys[index]], keys[index])
     }
   }
 
-  // ** Set a property in the called rule
+  /*
+    Set a collection of properties
+  */
   CSSOMQuery.prototype.set = function (object) {
-    var value
     var _this = this
 
-    function forEachPropertyName(property) {
-      value = object[property]
-
+    function forEachPropertyName(value, property) {
       if (typeof value === 'function') {
-        _this.style[property] = value(_this.style[property])
+        _this.rule.style[property] = value(_this.rule.style[property])
       } else {
-        _this.style[property] = value
+        _this.rule.style[property] = value
       }
     }
 
     each(object, forEachPropertyName)
   }
 
-  // ** Delegate events defined into this.events
+  /*
+    Delegate events, only support the events defined in `prefixEvent`
+  */
   CSSOMQuery.prototype.on = function (eventName, callback) {
     var _this = this
-    var element
     function call(e) { callback(e) }
 
-    Object.keys(_this.domNodes).forEach(function (element, index) {
-      element = _this.domNodes.item(index)
-      // console.log('element: ', element)
+    if (!_this.domNodes) {
+      _this.domNodes = document.querySelectorAll(_this.rule.selectorText) || []
+    }
 
-      _this.events[eventName].forEach(function (value, index) {
-        // console.log('event', value)
+    each(_this.domNodes, function (element, index) {
+      // Add the event for each prefix
+      each(prefixEvent[eventName], function (value, index) {
         element.addEventListener(value, call, false)
       })
     })
