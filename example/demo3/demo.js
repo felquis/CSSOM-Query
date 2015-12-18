@@ -1,5 +1,5 @@
 var box = new CSSOMQuery('.box')
-var step = 0;
+var step = 0
 
 box.on('transitionend', next)
 
@@ -13,28 +13,28 @@ var steps = {
       },
       left: '100px'
     })
-    step += 1;
+    step += 1
   },
   1: function () {
     box.set({
       top: '400px',
       left: '400px'
     })
-    step += 1;
+    step += 1
   },
   2: function () {
     box.set({
       top: '100px',
       left: '400px'
     })
-    step += 1;
+    step += 1
   },
   3: function () {
     box.set({
       top: '100px',
       left: '100px'
     })
-    step = 0;
+    step = 0
   }
 }
 
@@ -42,7 +42,7 @@ function next(argument) {
   if (steps[step]) {
     steps[step]()
   } else {
-    step = 0;
+    step = 0
   }
 }
 

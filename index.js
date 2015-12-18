@@ -81,8 +81,8 @@
 
   // ** Set a property in the called rule
   CSSOMQuery.prototype.set = function (object) {
-    var value;
-    var _this = this;
+    var value
+    var _this = this
 
     function forEachPropertyName(property) {
       value = object[property]
@@ -105,12 +105,12 @@
 
     Object.keys(_this.domNodes).forEach(function (element, index) {
       element = _this.domNodes.item(index)
-      // console.log('element: ', element);
+      // console.log('element: ', element)
 
       _this.events[eventName].forEach(function (value, index) {
         // console.log('event', value)
-        element.addEventListener(value, call, false);
-      });
+        element.addEventListener(value, call, false)
+      })
     })
   }
 
