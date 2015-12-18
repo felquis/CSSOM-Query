@@ -35,6 +35,7 @@ function CSSOMQuery(selectorText) {
         // ** Put some extra information
         _this.rules = rules
         _this.rule = rule
+        _this.style = rule.style
         _this.styleSheet = styleSheet
 
         // index of the style sheet
@@ -63,10 +64,36 @@ function CSSOMQuery(selectorText) {
   return _this
 }
 
+function each(list, transform) {
+  var keys = Object.keys(list)
+  var index = 0, total = keys.length
+
+  if (typeof transform !== 'function') {
+    throw('segundo parametro tem que ser uma função')
+    return
+  }
+
+  for (; index < total; index++) {
+    transform(keys[index], list[keys[index]], index)
+  }
+}
+
 // ** Set a property in the called rule
-CSSOMQuery.prototype.set = function (property, value) {
-  // console.log('set', this.rule);
-  this.rule.style[property] = value
+CSSOMQuery.prototype.set = function (object) {
+  var value;
+  var _this = this;
+
+  function forEachPropertyName(property) {
+    value = object[property]
+
+    if (typeof value === 'function') {
+      _this.style[property] = value(_this.style[property])
+    } else {
+      _this.style[property] = value
+    }
+  }
+
+  each(object, forEachPropertyName)
 }
 
 // ** Delegate events defined into this.events

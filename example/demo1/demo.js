@@ -28,7 +28,9 @@ function nextColor(element) {
     currentColor = 0
   }
 
-  element.set('color', colors[currentColor])
+  element.set({
+    color: colors[currentColor]
+  })
 }
 
 function domNextColor(element) {

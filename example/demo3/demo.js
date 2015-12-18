@@ -7,7 +7,10 @@ var steps = {
   // TODO: use translate
   0: function () {
     box.set({
-      top: '400px',
+      top: function (value) {
+        console.log('top: ', value)
+        return '400px'
+      },
       left: '100px'
     })
     step += 1;

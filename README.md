@@ -52,13 +52,27 @@ var box = new CSSOMQuery('.box')
 
 ## Change a property's value
 ```js
-box.set('height', '200px')
+box.set({
+  height: '200px'
+})
 ```
 
 ## Get a property value
 ```js
 box.style.height // returns 200px
 ```
+
+## Set property value with a function
+```js
+box.set({
+  height: function (currentValue) {
+    console.log('height current value ', currentValue)
+    return '200px'
+  }
+})
+```
+
+TODO: Would be great the currentValue to be a parsed object, it currently returns strings
 
 ## transition end event
 

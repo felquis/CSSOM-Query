@@ -13,28 +13,34 @@ function nextColor() {
       currentColor = 0
     }
 
-    h1.set('color', colors[currentColor])
+    h1.set({
+      color: colors[currentColor]
+    })
   })
 }
 
 function toggleBox() {
   if (box.rule.style.height === '100px') {
-    box.set('height', '200px');
-    box.set('width', '200px');
+    box.set({
+      height: '200px',
+      width: '200px'
+    })
   } else {
-    box.set('height', '100px');
-    box.set('width', '100px');
+    box.set({
+      height: '100px',
+      width: '100px'
+    })
   }
 }
 
 function attachEvents() {
   document.querySelector('h1').addEventListener('click', nextColor)
   document.querySelector('.box').addEventListener('click', toggleBox)
-  box.on('transitionend', showMessage)
+  // box.on('transitionend', showMessage)
 }
 
 function showMessage(e) {
-  console.log('transition end: ', e.propertyName)
+  // console.log('transition end: ', e.propertyName)
 }
 
 attachEvents()
