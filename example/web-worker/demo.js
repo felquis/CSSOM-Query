@@ -1,16 +1,9 @@
-function workForMe(workify) {
+function workForMe(postMessage, close) {
   var i = 0
-
-  if (workify) {
-    var close = function () {}
-  } else {
-    workify = postMessage
-    close = self.close
-  }
 
   var timer = setInterval(function() {
     i++
-    workify(i)
+    postMessage(i)
 
     if (i > 5) {
       clearInterval(timer)
@@ -33,10 +26,12 @@ function workForMe(workify) {
     }
   }
 
+  function emptyFunc() {}
+
   function workify(func, dataHandler) {
 
-    if (checkSupport()) {
-      var file = '(' + func.toString() + '())'
+    if (!checkSupport()) {
+      var file = '(' + func.toString() + '(postMessage, self.close))'
 
       var blob = new Blob([file], {
         type: 'text/javascript'
@@ -47,7 +42,7 @@ function workForMe(workify) {
 
       return worker
     } else {
-      func(callback(dataHandler))
+      func(callback(dataHandler), emptyFunc)
 
       return
     }
