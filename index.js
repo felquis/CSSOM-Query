@@ -78,6 +78,15 @@
   }
 
   /*
+    Parse property value, returning useful information
+    to manipulate the value
+  */
+  function parseProperty(value) {
+    console.log('parse', value)
+    return value
+  }
+
+  /*
     Set a collection of properties
   */
   CSSOMQuery.prototype.set = function set(object) {
@@ -85,7 +94,7 @@
 
     function forEachPropertyName(value, property) {
       if (typeof value === 'function') {
-        _this.rule.style[property] = value(_this.rule.style[property])
+        _this.rule.style[property] = value(parseProperty(_this.rule.style[property]))
       } else {
         _this.rule.style[property] = value
       }
