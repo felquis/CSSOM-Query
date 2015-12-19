@@ -1,27 +1,63 @@
-var myWorker = null
-window.URL = window.URL || (window.webkitURL)
-
-function workForMe() {
+function workForMe(workify) {
   var i = 0
 
-  setInterval(function() {
+  if (workify) {
+    var close = function () {}
+  } else {
+    workify = postMessage
+    close = self.close
+  }
+
+  var timer = setInterval(function() {
     i++
-    postMessage(i)
+    workify(i)
+
+    if (i > 5) {
+      clearInterval(timer)
+      // close worker
+      close()
+    }
   }, 500)
 }
 
-function useFuncInWorker(func) {
-  var file = '(' + func.toString() + ')()'
+(function workifyInit() {
+  window.URL = window.URL || window.webkitURL
 
-  var blob = new Blob([file], {
-    type: 'text/javascript'
-  })
+  function checkSupport() {
+    return window.URL && window.Blob && window.Worker
+  }
 
-  return new Worker(window.URL.createObjectURL(blob))
+  function callback(dataHandler) {
+    return function (data) {
+      dataHandler({data: data})
+    }
+  }
+
+  function workify(func, dataHandler) {
+
+    if (checkSupport()) {
+      var file = '(' + func.toString() + '())'
+
+      var blob = new Blob([file], {
+        type: 'text/javascript'
+      })
+      var worker = new Worker(window.URL.createObjectURL(blob))
+
+      worker.onmessage = data
+
+      return worker
+    } else {
+      func(callback(dataHandler))
+
+      return
+    }
+  }
+
+  window.workify = window.workify || workify
+}())
+
+function data(e) {
+  document.querySelector('#counter').innerHTML = e.data
 }
 
-var myWorker = useFuncInWorker(workForMe)
-
-myWorker.onmessage = function (e) {
-  document.getElementById('counter').innerHTML = e.data
-}
+var worker = workify(workForMe, data)
