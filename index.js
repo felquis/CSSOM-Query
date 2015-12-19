@@ -80,7 +80,7 @@
   /*
     Set a collection of properties
   */
-  CSSOMQuery.prototype.set = function (object) {
+  CSSOMQuery.prototype.set = function set(object) {
     var _this = this
 
     function forEachPropertyName(value, property) {
@@ -97,7 +97,7 @@
   /*
     Delegate events, only support the events defined in `prefixEvent`
   */
-  CSSOMQuery.prototype.on = function (eventName, callback) {
+  CSSOMQuery.prototype.on = function on(eventName, callback) {
     var _this = this
     function call(e) { callback(e) }
 
@@ -105,7 +105,7 @@
       _this.domNodes = document.querySelectorAll(_this.rule.selectorText) || []
     }
 
-    each(_this.domNodes, function (element, index) {
+    each(_this.domNodes, function forEachEvent(element, index) {
       // Add the event for each prefix
       each(prefixEvent[eventName], function (value, index) {
         element.addEventListener(value, call, false)
