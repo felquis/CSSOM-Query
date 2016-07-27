@@ -1,25 +1,24 @@
 # CSSOM-Query
 
-Dynamically find CSS Selector into style sheets and manipulate elements selector's styles without touching the DOM
+Dynamically find CSS Selector into style sheets and manipulate selector's styles without touching the DOM
 
 ## Examples
  * [Basic Demo](http://felquis.github.io/CSSOM-Query/example/)
  * Header Natural Scroll - [codepen](http://codepen.io/felquis/pen/GpybaX) - [full screen mode](http://s.codepen.io/felquis/debug/GpybaX)
-   > The header is fixed positioned and it only show and hide cause if
-     change it's top property in the scroll events
+   > The header is fixed and it only show and hide when it
+     changes it's `top` property in the scroll events
  * [Transition End Example](http://felquis.github.io/CSSOM-Query/example/demo2/)
 
 clone this repository and run the commands bellow to launch the examples
 ```shell
-npm install -d
+npm install
 
 npm start
 ```
 
 ## Explanation
 
-Image you only have this  your style sheet contains
-/example/demo.css
+Imagene you only have this in your style sheet, in the file `/example/demo.css`
 ```css
 h1 {
   color: red;
@@ -38,7 +37,7 @@ Once elements is renderized with this styles, you can manipulate then by doing
 document.styleSheets[0].cssRules[1].style.height = '200px'
 ```
 
-What this functions helps me, is to find out the styleSheets[0] index and cssRules[1].
+What this function helps me, is to find out the `styleSheets[0]` index and `cssRules[1]`.
 
 So I can focus only on the rule I want to manipulate
 
@@ -72,9 +71,9 @@ box.set({
 })
 ```
 
-TODO: Would be great the currentValue to be a parsed object, it currently returns strings
+TODO: Would be great the currentValue to be a parsed object, it currently return strings
 
-## transition end event
+## Transition end event
 
 It will use vendor prefixes automatically
 
